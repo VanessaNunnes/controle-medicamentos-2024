@@ -1,12 +1,11 @@
-﻿
-
-using ControleMedicamentos.ConsoleApp.ModuloMedicamentos;
+﻿using ControleMedicamentos.ConsoleApp.ModuloMedicamentos;
 using ControleMedicamentos.ConsoleApp.ModuloPaciente;
 
 namespace ControleMedicamentos.ConsoleApp.ModuloRequisicao
 {
     public class Requisicao
     {
+        public int Id { get; set; }
         public Medicamento Medicamento { get; set; }
         public Paciente Paciente { get; set; }
         public int Quantidade { get; set; }

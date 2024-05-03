@@ -171,17 +171,15 @@ namespace ControleMedicamentos.ConsoleApp.ModuloMedicamentos
             return medicamentosEmFalta;
         }
 
-        public Medicamento SelecionarMedicamentoPorId(int id)
+        public Medicamento SelecionarMedicamentoPorNome(string nomeMedicamento)
         {
             foreach (Medicamento medicamento in medicamentos)
             {
-                if (medicamento != null && medicamento.Id == id)
+                if (medicamento != null && medicamento.Nome == nomeMedicamento)
                 {
-                    Console.WriteLine($"Medicamento encontrado com o ID: {medicamento.Id}");
                     return medicamento;
                 }
             }
-            Console.WriteLine($"Nenhum medicamento encontrado com o ID: {id}");
             return null;
         }
     }

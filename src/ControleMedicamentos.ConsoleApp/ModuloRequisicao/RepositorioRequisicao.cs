@@ -1,32 +1,27 @@
-﻿
-
+﻿using ControleMedicamentos.ConsoleApp.Compartilhado;
 using ControleMedicamentos.ConsoleApp.ModuloMedicamentos;
-
+using System;
 
 namespace ControleMedicamentos.ConsoleApp.ModuloRequisicao
 {
     public class RepositorioRequisicao
     {
-        public RepositorioMedicamento repositorioMedicamento = new RepositorioMedicamento();
-        Requisicao[] requisicoes = new Requisicao[100];
-        public void CadastrarRequisicao(Requisicao requisicao)
+        private Requisicao[] requisicoes = new Requisicao[100];
+        private RepositorioMedicamento repositorioMedicamento;
+
+        public RepositorioRequisicao(RepositorioMedicamento repositorioMedicamento)
         {
-            Console.WriteLine("Cadastrando Requisição...");
-
-            Console.WriteLine();
-
-            Console.Write("Digite o ID do medicamento: ");
-            int idMedicamento = Convert.ToInt32(Console.ReadLine());
-
-            Medicamento medicamento = repositorioMedicamento.SelecionarMedicamentoPorId(idMedicamento);
-            if (medicamento == null)
-            {
-                Console.WriteLine($"O medicamento com o ID '{idMedicamento}' não foi encontrado no sistema.");
-                return;
-            }
+            this.repositorioMedicamento = repositorioMedicamento;
         }
 
-            public void Registrar(Requisicao requisicao)
+        public void CadastrarRequisicoes(Requisicao novaRequisicao)
+        {
+            novaRequisicao.Id = GeradorId.GerarIdRequisicoes();
+            Registrar(novaRequisicao);
+            AtualizarEstoque(novaRequisicao.Medicamento, novaRequisicao.Quantidade);
+        }
+
+        private void Registrar(Requisicao requisicao)
         {
             for (int i = 0; i < requisicoes.Length; i++)
             {
@@ -40,10 +35,14 @@ namespace ControleMedicamentos.ConsoleApp.ModuloRequisicao
             }
         }
 
-        public Requisicao[] SelecionarRequisicao()
+        private void AtualizarEstoque(Medicamento medicamento, int quantidade)
+        {
+            medicamento.Quantidade -= quantidade;
+        }
+
+        public Requisicao[] SelecionarRequisicoes()
         {
             Requisicao[] requisicoesExistentes = new Requisicao[100];
-
             int contadorElementosExistentes = 0;
 
             for (int i = 0; i < requisicoes.Length; i++)
@@ -58,6 +57,58 @@ namespace ControleMedicamentos.ConsoleApp.ModuloRequisicao
             }
 
             return requisicoesExistentes;
+        }
+
+        public bool EditarRequisicao(int id, Requisicao novaRequisicao)
+        {
+            novaRequisicao.Id = id;
+
+            for (int i = 0; i < requisicoes.Length; i++)
+            {
+                if (requisicoes[i] == null)
+                    continue;
+
+                else if (requisicoes[i].Id == id)
+                {
+                    requisicoes[i] = novaRequisicao;
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool ExcluirRequisicao(int id)
+        {
+            for (int i = 0; i < requisicoes.Length; i++)
+            {
+                if (requisicoes[i] == null)
+                    continue;
+
+                else if (requisicoes[i].Id == id)
+                {
+                    requisicoes[i] = null;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool ExisteRequisicao(int id)
+        {
+            for (int i = 0; i < requisicoes.Length; i++)
+            {
+                Requisicao r = requisicoes[i];
+
+                if (r == null)
+                    continue;
+
+                else if (r.Id == id)
+                    return true;
+            }
+
+            return false;
         }
     }
 }

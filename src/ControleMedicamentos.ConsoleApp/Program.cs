@@ -4,17 +4,19 @@ using ControleMedicamentos.ConsoleApp.ModuloRequisicao;
 
 namespace ControleMedicamentos.ConsoleApp
 {
-    internal class Program
+    public class Program
     {
         static void Main(string[] args)
         {
             RepositorioMedicamento repositorioMedicamento = new RepositorioMedicamento();
             RepositorioPaciente repositorioPaciente = new RepositorioPaciente();
-            RepositorioRequisicao repositorioRequisicao = new RepositorioRequisicao();
 
-            TelaMedicamento telaMedicamento = new TelaMedicamento();
-            TelaPaciente telaPaciente = new TelaPaciente();
-            TelaRequisicao telaRequisicao = new TelaRequisicao(repositorioMedicamento, repositorioPaciente, repositorioRequisicao);
+            TelaPaciente telaPaciente = new TelaPaciente(repositorioPaciente);
+            TelaMedicamento telaMedicamento = new TelaMedicamento(repositorioMedicamento);
+            TelaRequisicao telaRequisicao = new TelaRequisicao(repositorioMedicamento, repositorioPaciente, telaMedicamento, telaPaciente);
+
+            //TelaChamado telaChamado = new TelaChamado();
+            // telaChamado.telaEquipamento = telaEquipamento;
 
             bool opcaoSairEscolhida = false;
 
@@ -32,16 +34,16 @@ namespace ControleMedicamentos.ConsoleApp
                             break;
 
                         if (operacaoEscolhida == '1')
-                         telaMedicamento.CadastrarMedicamento();
+                            telaMedicamento.CadastrarMedicamento();
 
                         else if (operacaoEscolhida == '2')
-                          telaMedicamento.EditarMedicamento();
+                            telaMedicamento.EditarMedicamento();
 
                         else if (operacaoEscolhida == '3')
-                           telaMedicamento.ExcluirMedicamento();
+                            telaMedicamento.ExcluirMedicamento();
 
                         else if (operacaoEscolhida == '4')
-                          telaMedicamento.VisualizarMedicamentos(true);
+                            telaMedicamento.VisualizarMedicamentos(true);
 
                         else if (operacaoEscolhida == '5')
                             telaMedicamento.MedicamentosPoucaQuantidade();
@@ -68,7 +70,7 @@ namespace ControleMedicamentos.ConsoleApp
 
                         else if (operacaoEscolhida == '4')
                             telaPaciente.VisualizarPacientes(true);
-                       
+
 
 
                         break;
@@ -80,19 +82,17 @@ namespace ControleMedicamentos.ConsoleApp
                             break;
 
                         if (operacaoEscolhida == '1')
-                           telaRequisicao.CadastrarRequisicao();
+                            telaRequisicao.CadastrarRequisicao();
 
                         if (operacaoEscolhida == '2')
-                            Console.WriteLine();
-                        //telaRequisicao.EditarChamado();
+                            telaRequisicao.EditarRequisicao();
 
                         if (operacaoEscolhida == '3')
                             Console.WriteLine();
                         //telaRequisicao.ExcluirChamado();
 
                         else if (operacaoEscolhida == '4')
-                            Console.WriteLine();
-                        //telaRequisicao.VisualizarChamados(true);
+                            telaRequisicao.VisualizarRequisicoes();
 
                         break;
 
@@ -101,8 +101,8 @@ namespace ControleMedicamentos.ConsoleApp
             }
 
             Console.ReadLine();
-        
-    }
+
+        }
         private static char ApresentarMenuPrincipal()
         {
             Console.Clear();
@@ -126,7 +126,6 @@ namespace ControleMedicamentos.ConsoleApp
 
             return opcaoEscolhida;
         }
-
         public static void ExibirMensagem(string mensagem, ConsoleColor cor)
         {
             Console.ForegroundColor = cor;

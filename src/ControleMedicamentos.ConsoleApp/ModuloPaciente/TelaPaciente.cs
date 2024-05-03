@@ -2,7 +2,12 @@
 {
     public class TelaPaciente
     {
-        public RepositorioPaciente repositorio = new RepositorioPaciente();
+        public RepositorioPaciente repositorioPaciente;
+
+        public TelaPaciente(RepositorioPaciente repositorioPaciente)
+        {
+            this.repositorioPaciente = repositorioPaciente;
+        }
         public char ApresentarMenu()
         {
             Console.Clear();
@@ -56,7 +61,7 @@
 
             Paciente paciente = new Paciente(nome, cpf, endereco, cartaoSUS);
 
-            repositorio.CadastrarPaciente(paciente);
+            repositorioPaciente.CadastrarPaciente(paciente);
 
             Program.ExibirMensagem("O paciente foi cadastrado com sucesso!", ConsoleColor.Green);
         }
@@ -80,7 +85,7 @@
             Console.Write("Digite o ID do paciente que deseja editar: ");
             int idPacienteEscolhido = Convert.ToInt32(Console.ReadLine());
 
-            if (!repositorio.ExistePaciente(idPacienteEscolhido))
+            if (!repositorioPaciente.ExistePaciente(idPacienteEscolhido))
             {
                 Program.ExibirMensagem("O paciente mencionado não existe!", ConsoleColor.DarkYellow);
                 return;
@@ -102,7 +107,7 @@
 
             Paciente novoPaciente = new Paciente(nome, cpf, endereco, cartaoSUS);
 
-            bool conseguiuEditar = repositorio.EditarPaciente(idPacienteEscolhido, novoPaciente);
+            bool conseguiuEditar = repositorioPaciente.EditarPaciente(idPacienteEscolhido, novoPaciente);
 
             if (!conseguiuEditar)
             {
@@ -132,13 +137,13 @@
             Console.Write("Digite o ID do paciente que deseja excluir: ");
             int idPacienteEscolhido = Convert.ToInt32(Console.ReadLine());
 
-            if (!repositorio.ExistePaciente(idPacienteEscolhido))
+            if (!repositorioPaciente.ExistePaciente(idPacienteEscolhido))
             {
                 Program.ExibirMensagem("O paciente mencionado não existe!", ConsoleColor.DarkYellow);
                 return;
             }
 
-            bool conseguiuExcluir = repositorio.ExcluirPaciente(idPacienteEscolhido);
+            bool conseguiuExcluir = repositorioPaciente.ExcluirPaciente(idPacienteEscolhido);
 
             if (!conseguiuExcluir)
             {
@@ -171,7 +176,7 @@
                 "Id", "Nome", "CPF", "Endereço"
             );
 
-            Paciente[] pacientesCadastrados = repositorio.SelecionarPacientes();
+            Paciente[] pacientesCadastrados = repositorioPaciente.SelecionarPacientes();
 
             for (int i = 0; i < pacientesCadastrados.Length; i++)
             {

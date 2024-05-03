@@ -2,7 +2,12 @@
 {
     public class TelaMedicamento
     {
-        public RepositorioMedicamento repositorioMedicamento = new RepositorioMedicamento();
+        public RepositorioMedicamento repositorioMedicamento;
+
+        public TelaMedicamento(RepositorioMedicamento repositorioMedicamento)
+        {
+            this.repositorioMedicamento = repositorioMedicamento;
+        }
         public char ApresentarMenu()
         {
             Console.Clear();
